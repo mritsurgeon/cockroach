@@ -15,8 +15,8 @@ spec:
     targetPort: 26257
     name: grpc
   # The secondary port serves the UI as well as health and debug endpoints.
-  - port: 8080
-    targetPort: 8080
+  - port: 8081
+    targetPort: 8081
     name: http
   selector:
     app: cockroachdb
@@ -40,14 +40,14 @@ metadata:
     # Enable automatic monitoring of all instances when Prometheus is running in the cluster.
     prometheus.io/scrape: "true"
     prometheus.io/path: "_status/vars"
-    prometheus.io/port: "8080"
+    prometheus.io/port: "8081"
 spec:
   ports:
   - port: 26257
     targetPort: 26257
     name: grpc
-  - port: 8080
-    targetPort: 8080
+  - port: 8081
+    targetPort: 8081
     name: http
   # We want all pods in the StatefulSet to have their addresses published for
   # the sake of the other CockroachDB pods even before they're ready, since they
@@ -106,15 +106,15 @@ spec:
         # Note that requests and limits should have identical values.
         resources:
           requests:
-            cpu: "2"
-            memory: "8Gi"
+            cpu: "1"
+            memory: "2Gi"
           limits:
-            cpu: "2"
-            memory: "8Gi" 
+            cpu: "1"
+            memory: "2Gi" 
         ports:
         - containerPort: 26257
           name: grpc
-        - containerPort: 8080
+        - containerPort: 8081
           name: http
 # We recommend that you do not configure a liveness probe on a production environment, as this can impact the availability of production databases.
 #       livenessProbe:
@@ -179,4 +179,4 @@ spec:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
